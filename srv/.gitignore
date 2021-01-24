@@ -1,0 +1,7 @@
+__pycache__
+
+# Ignore virutal environment
+.venv*/
+.env*/
+
+# Ignore environment variable

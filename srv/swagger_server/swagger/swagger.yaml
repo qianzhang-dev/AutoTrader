@@ -1,0 +1,377 @@
+openapi: 3.0.0
+info:
+  title: AutoTrader
+  version: "1.0"
+servers:
+- url: http://localhost:3000
+paths:
+  /users/{userId}:
+    get:
+      tags: []
+      summary: Get User Info by User ID
+      description: Retrieve the information of the user with the matching user ID.
+      operationId: get_users_user_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: key
+        in: query
+        description: Your Api Key To Access This Site
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: User Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    patch:
+      summary: Update User Information
+      description: Update the infromation of an existing user.
+      operationId: patch_users_user_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        description: Patch user properties to update.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body'
+            examples:
+              Update First Name:
+                value:
+                  firstName: Rebecca
+              Update Email:
+                value:
+                  email: rebecca@gmail.com
+              Update Last Name & Date of Birth:
+                value:
+                  lastName: Baker
+                  dateOfBirth: 1985-10-02
+      responses:
+        "200":
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: User Not Found
+        "409":
+          description: Email Already Taken
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /user:
+    post:
+      summary: Create New User
+      description: Create a new user.
+      operationId: post_user
+      requestBody:
+        description: Post the necessary fields for the API to create a new user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_1'
+      responses:
+        "200":
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Missing Required Information
+        "409":
+          description: Email Already Taken
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/alerts:
+    get:
+      tags: []
+      summary: Get all alerts bound to a user
+      description: Get a list of alert that the user owns
+      operationId: get_users_user_id_alerts
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alert'
+                x-content-type: application/json
+        "204":
+          description: No Content
+        "401":
+          description: 'Unauthorized: Insufficient Permission To View This Alert List'
+        "404":
+          description: 'Not Found: Alert List Does Not Exist'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/alerts/{ticker}:
+    get:
+      tags: []
+      summary: Get alerts bound to user matches the ticker
+      description: Get the alert of a specific ticker for a user
+      operationId: get_users_user_id_alerts_ticker
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ticker
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alert'
+                x-content-type: application/json
+        "401":
+          description: 'Unauthorized: You Don''t Have Permission To View This Alert
+            List'
+        "404":
+          description: 'Not Found: Alert List Does Not Exist'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/alert:
+    post:
+      summary: Create an alert with expected rules
+      description: Create a new alert for a specific ticker on a specific event
+      operationId: post_users_user_id_alert
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_2'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: 'Bad Request: Ticker Not Found'
+        "401":
+          description: 'Unauthorized: Insufficient Permission To Create Alert On This
+            User Id'
+        "409":
+          description: 'Conflict: Alert Already Exist'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/alerts/{ticker}/{alertId}:
+    get:
+      tags: []
+      summary: Get a specific alert by id
+      operationId: get_users_user_id_alerts_ticker_alert_id
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ticker
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        "401":
+          description: 'Unauthorized: Insufficient Permission To View This Alert'
+        "404":
+          description: 'Not Found: Alert Does Not Exist'
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /ping:
+    get:
+      tags: []
+      summary: Healthcheck Endpoint
+      operationId: get_ping
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+components:
+  schemas:
+    User:
+      title: User
+      required:
+      - email
+      - emailVerified
+      - id
+      - username
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          example: 1
+        username:
+          type: string
+          description: The username of the user
+          example: rogerxman
+        email:
+          type: string
+          format: email
+          example: roger@xman.com
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          description: The date that the user was created.
+          format: date
+      example:
+        emailVerified: true
+        id: 1
+        email: roger@xman.com
+        username: rogerxman
+        createDate: 2000-01-23
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: 1997-10-31
+          emailVerified: true
+          signUpDate: 2019-08-24
+    Alert:
+      title: Alert
+      type: object
+      properties:
+        id:
+          type: integer
+        eventType:
+          type: string
+          example: upCross
+          enum:
+          - upCross
+          - downCross
+        ticker:
+          type: string
+          example: MSFT
+        disabled:
+          type: boolean
+        createTime:
+          type: string
+          format: date
+        lastTriggerTime:
+          type: string
+          format: date
+        ownerId:
+          type: integer
+        price:
+          type: number
+      example:
+        ticker: MSFT
+        createTime: 2000-01-23
+        price: 1.4658129805029452
+        lastTriggerTime: 2000-01-23
+        disabled: true
+        id: 0
+        eventType: upCross
+        ownerId: 6
+    body:
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username that needs to be updated to
+        password:
+          type: string
+          description: The new password that needs to be changed to
+          format: password
+        email:
+          type: string
+          description: The new email address that needs to be changed to
+          format: email
+    body_1:
+      required:
+      - email
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          description: The username of this account
+        password:
+          type: string
+          description: The password of this account
+          format: password
+        email:
+          type: string
+          description: The email address to receive the ticker notification
+          format: email
+    body_2:
+      type: object
+      properties:
+        ticker:
+          type: string
+        eventType:
+          type: string
+          enum:
+          - upCross
+          - downCross
+        price:
+          type: number
+  securitySchemes: {}
+
