@@ -33,7 +33,7 @@ def get_users_user_id(user_id: int, key=None):  # noqa: E501
 
     return {
         'id': result.id,
-        'username': result.email,
+        'username': result.username,
         'email': result.email,
         'emailVerified': True,
         'createDate': result.created_timestamp.isoformat()
@@ -126,7 +126,7 @@ def patch_users_user_id(user_id, body=None):  # noqa: E501
 
         return {
             'id': result.id,
-            'username': result.email,
+            'username': result.username,
             'email': result.email,
             'emailVerified': True,
             'createDate': result.created_timestamp.isoformat()
@@ -151,7 +151,7 @@ def post_user(body=None):  # noqa: E501
 
         return {
             'id': result.id,
-            'username': result.email,
+            'username': result.username,
             'email': result.email,
             'emailVerified': True,
             'createDate': result.created_timestamp.isoformat()
