@@ -1,13 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
 import { func } from 'prop-types';
 import { IDialogProps } from '../../../models/interfaces';
+import { apiCallStatusReducer, initApiCallStatus } from '../../../models/data/apiCallStatus';
 
 
 export function LoginDialog(props: IDialogProps) {
 
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [status, updateStatus] = useReducer(apiCallStatusReducer, initApiCallStatus());
+
+    function cleanDialog() {
+        setUsername('');
+        setPassword('');
+        updateStatus({ type: 'INIT' });
+    }
+
     const handleClose = () => {
         props.setIsOpen(false);
+        cleanDialog();
     }
 
     return (

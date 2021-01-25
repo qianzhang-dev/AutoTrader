@@ -5,18 +5,18 @@ export function initialUserInfo(): IUserInfoData {
     return {
         isLogin: false,
         id: '',
-        name: '',
-        avatarSrc: ''
+        username: '',
+        email: ''
     }
 }
 
 function userInfoReducer(userInfo: IUserInfoData = initialUserInfo(), action: IUserInfoAction) {
     switch (action.type) {
         case 'Update/UpdateByLoginSucc':
-            return action.value;
-
+            return { ...action.value, isLogin: true};
+                
         default:
-            return action.value;
+            return userInfo;
     }
 }
 

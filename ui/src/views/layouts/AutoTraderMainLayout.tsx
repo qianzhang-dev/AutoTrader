@@ -11,10 +11,10 @@ export function AutoTraderMainLayout() {
         <Container maxWidth="xl">
             <Router>
                 <Grid container>
-                    <Grid item xs={12} sm={2} xl={1} container>
+                    <Grid item xs={12} sm={2} container>
                         <AutoTraderSideBarLayout />
                     </Grid>
-                    <Grid item xs={12} sm={10} xl={11} container>
+                    <Grid item xs={12} sm={10} container>
                         <AutoTraderContentLayout />
                     </Grid>
                 </Grid>

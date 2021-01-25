@@ -2,13 +2,17 @@
 export interface IUserInfoData {
     isLogin: boolean,
     id: string,
-    name: string,
-    avatarSrc: string,
+    username: string,
+    email: string
 };
 
 export interface IUserInfoAction {
     type: 'Update/UpdateByLoginSucc',
     value: IUserInfoData
+}
+
+export interface IApiCallStatusAction{
+    type: 'SUCC' | 'FAIL' | 'LOADING' | 'INIT'
 }
 
 /* hook interfaces */
@@ -19,4 +23,19 @@ export interface IUserInfoProps  {
 export interface IDialogProps {
     isOpen: boolean,
     setIsOpen: React.Dispatch<any>
+}
+
+export interface IDialogContent {
+    msg: string
+}
+
+/* controller interfaces */
+export interface ITextFieldController {
+    id: string,
+    label: string,
+    value: string,
+    setValue: any,
+    type?: 'text' | 'password',
+    required?: boolean,
+    variant?: 'filled'
 }
