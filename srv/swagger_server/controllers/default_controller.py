@@ -9,8 +9,10 @@ from swagger_server import util
 
 from .default_handler import DefaultHandler
 
+handler = DefaultHandler()
+
 def get_ping():  # noqa: E501
-    DefaultHandler.handle_get_ping()
+    handler.handle_get_ping()
     return 'OK'
 
 
