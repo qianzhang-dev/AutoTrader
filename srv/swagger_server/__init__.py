@@ -18,7 +18,7 @@ at_db = SQLAlchemy(cnx.app)
 from . import db_models
 
 # Register db migration toolings
-at_migrate = Migrate(cnx.app, at_db)
+at_migrate = Migrate(cnx.app, at_db, render_as_batch=True)
 
 # Regsiter swagger.yaml as openapi endpoint
 cnx.add_api('swagger.yaml', arguments={'title': 'AutoTrader'}, pythonic_params=True)

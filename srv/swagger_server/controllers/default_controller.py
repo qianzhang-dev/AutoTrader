@@ -1,3 +1,4 @@
+from swagger_server.exceptions import EmailAlreadyRegistered
 import connexion
 
 from swagger_server.models.alert import Alert  # noqa: E501
@@ -13,7 +14,7 @@ handler = DefaultHandler()
 
 def get_ping():  # noqa: E501
     handler.handle_get_ping()
-    return 'OK'
+    return 'OK', 200
 
 
 def get_users_user_id(user_id, key=None):  # noqa: E501
@@ -105,7 +106,20 @@ def post_user(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Body1.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        try:
+            result = handler.handle_post_user(body)
+        except EmailAlreadyRegistered as ear:
+            return ear.message, 409
+
+        return {
+            'id': result.id,
+            'username': result.email,
+            'email': result.email,
+            'emailVerified': True,
+            'createDate': result.created_timestamp.isoformat()
+        }, 200
+    else:
+        return 'The request body is not valid json', 400
 
 
 def post_users_user_id_alert(user_id, body=None):  # noqa: E501
