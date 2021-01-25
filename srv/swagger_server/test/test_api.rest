@@ -11,3 +11,19 @@ content-type: application/json
     "password": "123asdf",
     "email": "sample@test.com"
 }
+
+###
+
+GET http://localhost:3000/users/1 HTTP/1.1
+content-type: application/json
+
+###
+
+PATCH http://localhost:3000/users/1 HTTP/1.1
+content-type: application/json
+
+{
+    "username": "roger",
+    "password": "greater",
+    "email": "new@email.com"
+}

@@ -1,4 +1,3 @@
-from swagger_server.exceptions import EmailAlreadyRegistered
 import connexion
 
 from swagger_server.models.alert import Alert  # noqa: E501
@@ -9,6 +8,7 @@ from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
 from .default_handler import DefaultHandler
+from ..decorators import basic_auth_any_registered
 
 handler = DefaultHandler()
 
@@ -17,7 +17,7 @@ def get_ping():  # noqa: E501
     return 'OK', 200
 
 
-def get_users_user_id(user_id, key=None):  # noqa: E501
+def get_users_user_id(user_id: int, key=None):  # noqa: E501
     """Get User Info by User ID
 
     Retrieve the information of the user with the matching user ID. # noqa: E501
@@ -29,7 +29,15 @@ def get_users_user_id(user_id, key=None):  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+    result = handler.handle_get_users_user_id(user_id)
+
+    return {
+        'id': result.id,
+        'username': result.email,
+        'email': result.email,
+        'emailVerified': True,
+        'createDate': result.created_timestamp.isoformat()
+    }, 200
 
 
 def get_users_user_id_alerts(user_id):  # noqa: E501
@@ -91,7 +99,17 @@ def patch_users_user_id(user_id, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Body.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        result = handler.handle_patch_users_user_id(user_id, body)
+
+        return {
+            'id': result.id,
+            'username': result.email,
+            'email': result.email,
+            'emailVerified': True,
+            'createDate': result.created_timestamp.isoformat()
+        }, 200
+    else:
+        return 'The request body is not valid json', 400
 
 
 def post_user(body=None):  # noqa: E501
@@ -106,10 +124,7 @@ def post_user(body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Body1.from_dict(connexion.request.get_json())  # noqa: E501
-        try:
-            result = handler.handle_post_user(body)
-        except EmailAlreadyRegistered as ear:
-            return ear.message, 409
+        result = handler.handle_post_user(body)
 
         return {
             'id': result.id,
