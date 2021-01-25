@@ -1,6 +1,5 @@
 from .. import at_db
 import sqlalchemy as db
-from datetime import datetime
 
 
 class DbUser(at_db.Model):

@@ -8,7 +8,6 @@ from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
 from .default_handler import DefaultHandler
-from ..decorators import basic_auth_any_registered
 
 handler = DefaultHandler()
 
