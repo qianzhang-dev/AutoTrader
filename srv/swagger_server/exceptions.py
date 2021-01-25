@@ -2,6 +2,8 @@ from connexion import ProblemException
 from flask.wrappers import Response
 from json import dumps
 
+from .constants import SWAGGER_URL_PREFIX
+
 
 class EmailAlreadyRegistered(ProblemException):
     def __init__(self, email: str, error_code: int = 409):
@@ -10,8 +12,14 @@ class EmailAlreadyRegistered(ProblemException):
         super(ProblemException, self).__init__()
 
 class UserNotFound(ProblemException):
-    def __init__(self, user_id: str, error_code: int = 404):
+    def __init__(self, user_id: int, error_code: int = 404):
         self.message = f'User {user_id} is not found'
+        self.error_code = error_code
+        super(ProblemException, self).__init__()
+
+class AlertNotFound(ProblemException):
+    def __init__(self, alert_id: int, error_code: int = 404):
+        self.message = f'Alert {alert_id} is not found'
         self.error_code = error_code
         super(ProblemException, self).__init__()
 
@@ -24,6 +32,15 @@ class AuthorizationFailure(ProblemException):
 class NoAuthorization(ProblemException):
     def __init__(self, error_code: int = 401):
         self.message = 'Authorization is required while "Authorization" header is empty'
+        self.error_code = error_code
+        super(ProblemException, self).__init__()
+
+class InvalidRequestBody(ProblemException):
+    def __init__(self, error_code: int = 400):
+        self.message = (
+            'Request body is not a valid json or missing specific field. '
+            f'Please visit {SWAGGER_URL_PREFIX} for the request body schematic.'
+        )
         self.error_code = error_code
         super(ProblemException, self).__init__()
     

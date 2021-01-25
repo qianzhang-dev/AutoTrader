@@ -17,6 +17,7 @@ from .exceptions import (
     EmailAlreadyRegistered,
     UserNotFound,
     NoAuthorization,
+    InvalidRequestBody,
     render_exception_message
 )
 
@@ -31,6 +32,7 @@ cnx.add_error_handler(AuthorizationFailure, render_exception_message)
 cnx.add_error_handler(EmailAlreadyRegistered, render_exception_message)
 cnx.add_error_handler(UserNotFound, render_exception_message)
 cnx.add_error_handler(NoAuthorization, render_exception_message)
+cnx.add_error_handler(InvalidRequestBody, render_exception_message)
 
 # Register code defined data structure from db_models
 at_db = SQLAlchemy(cnx.app)

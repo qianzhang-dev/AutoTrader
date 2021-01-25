@@ -1,5 +1,6 @@
 import connexion
 
+from swagger_server.exceptions import InvalidRequestBody
 from swagger_server.models.alert import Alert  # noqa: E501
 from swagger_server.models.body import Body  # noqa: E501
 from swagger_server.models.body1 import Body1  # noqa: E501
@@ -39,7 +40,7 @@ def get_users_user_id(user_id: int, key=None):  # noqa: E501
     }, 200
 
 
-def get_users_user_id_alerts(user_id):  # noqa: E501
+def get_users_user_id_alerts(user_id: str):  # noqa: E501
     """Get all alerts bound to a user
 
     Get a list of alert that the user owns # noqa: E501
@@ -49,10 +50,18 @@ def get_users_user_id_alerts(user_id):  # noqa: E501
 
     :rtype: List[Alert]
     """
-    return 'do some magic!'
+    result = handler.handle_get_users_user_id_alerts(user_id)
+
+    return [{
+        'id': alert.id,
+        'ownerId': alert.owner_id,
+        'ticker': alert.ticker,
+        'eventType': alert.event_type,
+        'price': alert.price
+    } for alert in result], 200
 
 
-def get_users_user_id_alerts_ticker(user_id, ticker):  # noqa: E501
+def get_users_user_id_alerts_ticker(user_id: str, ticker: str):  # noqa: E501
     """Get alerts bound to user matches the ticker
 
     Get the alert of a specific ticker for a user # noqa: E501
@@ -64,7 +73,15 @@ def get_users_user_id_alerts_ticker(user_id, ticker):  # noqa: E501
 
     :rtype: List[Alert]
     """
-    return 'do some magic!'
+    result = handler.handle_get_users_user_id_alerts_ticker(user_id, ticker)
+
+    return [{
+        'id': alert.id,
+        'ownerId': alert.owner_id,
+        'ticker': alert.ticker,
+        'eventType': alert.event_type,
+        'price': alert.price
+    } for alert in result], 200
 
 
 def get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa: E501
@@ -81,7 +98,14 @@ def get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa
 
     :rtype: Alert
     """
-    return 'do some magic!'
+    result = handler.get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id)
+    return {
+        'id': result.id,
+        'ownerId': result.owner_id,
+        'ticker': result.ticker,
+        'eventType': result.event_type,
+        'price': result.price
+    }, 200
 
 
 def patch_users_user_id(user_id, body=None):  # noqa: E501
@@ -108,7 +132,7 @@ def patch_users_user_id(user_id, body=None):  # noqa: E501
             'createDate': result.created_timestamp.isoformat()
         }, 200
     else:
-        return 'The request body is not valid json', 400
+        raise InvalidRequestBody()
 
 
 def post_user(body=None):  # noqa: E501
@@ -133,7 +157,7 @@ def post_user(body=None):  # noqa: E501
             'createDate': result.created_timestamp.isoformat()
         }, 200
     else:
-        return 'The request body is not valid json', 400
+        raise InvalidRequestBody()
 
 
 def post_users_user_id_alert(user_id, body=None):  # noqa: E501
@@ -150,4 +174,14 @@ def post_users_user_id_alert(user_id, body=None):  # noqa: E501
     """
     if connexion.request.is_json:
         body = Body2.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        result = handler.handle_post_users_user_id_alert(user_id, body)
+
+        return {
+            'id': result.id,
+            'ownerId': result.owner_id,
+            'ticker': result.ticker,
+            'eventType': result.event_type,
+            'price': result.price
+        }, 201
+    else:
+        raise InvalidRequestBody()
