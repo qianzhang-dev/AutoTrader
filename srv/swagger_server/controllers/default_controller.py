@@ -1,5 +1,4 @@
 import connexion
-import six
 
 from swagger_server.models.alert import Alert  # noqa: E501
 from swagger_server.models.body import Body  # noqa: E501
@@ -8,16 +7,11 @@ from swagger_server.models.body2 import Body2  # noqa: E501
 from swagger_server.models.user import User  # noqa: E501
 from swagger_server import util
 
+from .default_handler import DefaultHandler
 
 def get_ping():  # noqa: E501
-    """Healthcheck Endpoint
-
-     # noqa: E501
-
-
-    :rtype: None
-    """
-    return 'do some magic!'
+    DefaultHandler.handle_get_ping()
+    return 'OK'
 
 
 def get_users_user_id(user_id, key=None):  # noqa: E501
