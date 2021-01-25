@@ -41,10 +41,10 @@ POST http://localhost:3000/users/1/alert HTTP/1.1
 content-type: application/json
 
 {
-    "ticker": "MSFT",
+    "ticker": "AMAZ",
     "eventType": "upCross",
     "price": 12.34
 }
 
 ###
-GET http://localhost:3000/users/1/alerts/MSFT/4 HTTP/1.1
+GET http://localhost:3000/users/1/alerts/AMAZ/4 HTTP/1.1

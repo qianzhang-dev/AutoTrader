@@ -1,3 +1,4 @@
+import inspect
 import connexion
 
 from flask_sqlalchemy import SQLAlchemy
@@ -12,14 +13,7 @@ from .constants import (
     SWAGGER_SPEC_DIR,
     SQLITE_DB_CONNSTR
 )
-from .exceptions import (
-    AuthorizationFailure,
-    EmailAlreadyRegistered,
-    UserNotFound,
-    NoAuthorization,
-    InvalidRequestBody,
-    render_exception_message
-)
+from . import exceptions
 
 cnx = connexion.App(__name__, specification_dir=SWAGGER_SPEC_DIR)
 cnx.app.config['SQLALCHEMY_DATABASE_URI'] = SQLITE_DB_CONNSTR
@@ -27,12 +21,10 @@ cnx.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'False'
 
 cnx.app.json_encoder == encoder.JSONEncoder
 
-# Exception handlers
-cnx.add_error_handler(AuthorizationFailure, render_exception_message)
-cnx.add_error_handler(EmailAlreadyRegistered, render_exception_message)
-cnx.add_error_handler(UserNotFound, render_exception_message)
-cnx.add_error_handler(NoAuthorization, render_exception_message)
-cnx.add_error_handler(InvalidRequestBody, render_exception_message)
+# Register exception handlers from .exceptions module
+for name, obj in inspect.getmembers(exceptions):
+    if inspect.isclass(obj) and issubclass(obj, connexion.exceptions.ProblemException):
+        cnx.add_error_handler(obj, exceptions.render_exception_message)
 
 # Register code defined data structure from db_models
 at_db = SQLAlchemy(cnx.app)

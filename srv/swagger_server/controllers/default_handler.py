@@ -10,8 +10,10 @@ import bcrypt
 
 from .. import at_db
 from ..exceptions import (
-    AlertNotFound, EmailAlreadyRegistered,
-    UserNotFound
+    AlertNotFound,
+    EmailAlreadyRegistered,
+    UserNotFound,
+    AlertAlreadyCreated
 )
 from ..models import Body2, Body1, Body
 from ..db_models import DbPingEvent, DbUser, DbAlert
@@ -93,6 +95,18 @@ class DefaultHandler:
         matched_users = self.db.session.query(DbUser.id).filter(DbUser.id == user_id).all()
         if not matched_users:
             raise UserNotFound(user_id)
+            
+        # Validate if alert already exist
+        validated_user_id = matched_users[0].id
+        matched_alerts = self.db.session.query(DbAlert.id) \
+                                        .filter(DbAlert.owner_id == validated_user_id) \
+                                        .filter(DbAlert.ticker == body.ticker.lower()) \
+                                        .filter(DbAlert.event_type == body.event_type.lower()) \
+                                        .filter(DbAlert.price == body.price) \
+                                        .all()
+        if matched_alerts:
+            created_alert_id = matched_alerts[0].id
+            raise AlertAlreadyCreated(body.ticker.lower(), body.event_type.lower(), body.price, created_alert_id)
             
         # Create new alert
         alert = DbAlert()

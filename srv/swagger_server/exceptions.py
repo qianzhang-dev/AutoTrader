@@ -11,6 +11,12 @@ class EmailAlreadyRegistered(ProblemException):
         self.error_code = error_code
         super(ProblemException, self).__init__()
 
+class AlertAlreadyCreated(ProblemException):
+    def __init__(self, ticker: str, event_type: str, price: float, id: int, error_code: int = 409):
+        self.message = f'Alert {ticker} {event_type} {price} is already created @ id = {id}'
+        self.error_code = error_code
+        super(ProblemException, self).__init__()
+
 class UserNotFound(ProblemException):
     def __init__(self, user_id: int, error_code: int = 404):
         self.message = f'User {user_id} is not found'
