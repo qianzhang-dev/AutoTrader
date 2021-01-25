@@ -28,4 +28,9 @@
 ### Debug Project
 1. Set breakpoint in the .py file
 2. Hit F5, as the server will spin up in port `3000`
-3. 
+
+### Regenerate API
+
+### External Resources
+1. All tickers: https://datahub.io/core/nyse-other-listings
+2. Quote API: https://iexcloud.io/docs/api
