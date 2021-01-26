@@ -1,3 +1,9 @@
+
+/* utils */
+export interface IObjectKeyIsStr {
+    [key: string]: string
+}
+
 /* data interfaces */
 export interface IUserInfoData {
     isLogin: boolean,

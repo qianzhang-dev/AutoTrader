@@ -8,9 +8,9 @@ export function AutoTraderSideBarLayout() {
 
 
     return (
-        <Grid item container direction="column">
-            <UserInfoLayout />
-            <NavBarLayout />
+        <Grid item xs={12} container direction="column">
+            <Grid item><UserInfoLayout /></Grid>
+            <Grid item><NavBarLayout /></Grid>
         </Grid>
     ) 
 }

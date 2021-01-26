@@ -13,7 +13,12 @@ export function initialUserInfo(): IUserInfoData {
 function userInfoReducer(userInfo: IUserInfoData = initialUserInfo(), action: IUserInfoAction) {
     switch (action.type) {
         case 'Update/UpdateByLoginSucc':
-            return { ...action.value, isLogin: true};
+            return { 
+                isLogin: true,
+                id: action.value.id,
+                username: action.value.username,
+                email: action.value.email
+            };
                 
         default:
             return userInfo;

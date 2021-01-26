@@ -15,14 +15,14 @@ export function UserInfoContainer() {
     }, []);
 
     return (
-        <Grid item container>
+        <Grid item xs={12} container>
             {
                 isLogin &&
-                <UserInfo userInfoData={userInfoData.getState()}/>
+                <Grid item xs={12}><UserInfo userInfoData={userInfoData.getState()}/></Grid>
             }
             {
                 !isLogin &&
-                <UserInfoNotLogin />
+                <Grid item xs={12}><UserInfoNotLogin /></Grid>
             }
         </Grid>
     )

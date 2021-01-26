@@ -1,8 +1,10 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
 import { func } from 'prop-types';
 import { IDialogProps } from '../../../models/interfaces';
 import { apiCallStatusReducer, initApiCallStatus } from '../../../models/data/apiCallStatus';
+import { DialogFailContent, DialogLoadingContent, DialogSuccContent } from '../utils';
+import { TextFieldController } from '../controller/TextFieldController';
 
 
 export function LoginDialog(props: IDialogProps) {
@@ -21,6 +23,60 @@ export function LoginDialog(props: IDialogProps) {
         props.setIsOpen(false);
         cleanDialog();
     }
+    
+    const renderUsername = useMemo(() => {
+        return (
+            <TextFieldController
+                        id='signup-username'
+                        label='Username'
+                        value={username}
+                        setValue={setUsername}
+                        required={true}
+            />
+        )
+    }, [username]);
+
+    const renderPassword = useMemo(() => {
+        return (
+            <TextFieldController
+                id="signup-pwd"
+                value={password}
+                setValue={setPassword}
+                required={true}
+                type='password'
+                label="Password"
+            />
+        )
+    }, [password]);
+
+    const renderLoginForm = useMemo(() => {
+        return (
+            <Grid xs={12} container direction="column" spacing={4}>
+                <Grid item>
+                    {renderUsername}
+                </Grid>
+                <Grid item>
+                    {renderPassword}
+                </Grid>
+            </Grid>
+        )
+    }, [username, password]);
+
+    const renderDialogContent = useMemo(() => {
+        switch (status) {
+            case 'INIT':
+                return renderLoginForm;
+            case 'FAIL':
+                return <DialogFailContent msg="Login failed." />;
+            
+            case 'LOADING':
+                return <DialogLoadingContent />;
+            
+            case 'SUCC':
+                return <DialogSuccContent msg="Successfully logined in!" />;
+        }
+    }, [status, username, password])
+
 
     return (
         <Dialog 
@@ -30,35 +86,22 @@ export function LoginDialog(props: IDialogProps) {
         >
             <DialogTitle id="form-login"> Log in </DialogTitle>
             <DialogContent>
-                <Grid xs={12} container direction="column" spacing={4}>
-                    <Grid item>
-                        <TextField
-                            required
-                            id="login-username"
-                            label="Username"
-                            variant="filled"
-                        >
-                        </TextField>
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            required
-                            id="login-pwd"
-                            type="password"
-                            label="Password"
-                            variant="filled"
-                        >
-                        </TextField>
-                    </Grid>
-                </Grid>
+                { renderDialogContent }
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="default">
-                    Cancel
-                </Button>
-                <Button onClick={handleClose} color="primary">
-                    Login
-                </Button>
+                {
+                    status === "LOADING" &&
+                    <Button onClick={handleClose} color="default">
+                        Cancel
+                    </Button>
+                }
+                
+                {
+                    status === "INIT" &&
+                    <Button onClick={handleClose} color="primary">
+                        Login
+                    </Button>
+                }
             </DialogActions>
         </Dialog>
     )

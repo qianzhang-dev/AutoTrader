@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import React, { useMemo, useReducer, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
 import { IDialogProps, IUserInfoData } from '../../../models/interfaces';
 import { userInfoData } from '../../../models/data/userInfo';
@@ -123,7 +123,7 @@ export function SignupDialog(props: IDialogProps ) {
                 {
                     status !== 'LOADING' &&
                     <Button onClick={handleClose} color="default">
-                        Cancel
+                        Close
                     </Button>
                 }
 

@@ -4,7 +4,7 @@ import { UserInfoContainer } from '../../components/userInfo/UserInfoContainer';
 
 export function UserInfoLayout() {
     return (
-        <Grid item xs={12}>
+        <Grid item xs={12} container>
             <UserInfoContainer />
         </Grid>
     )

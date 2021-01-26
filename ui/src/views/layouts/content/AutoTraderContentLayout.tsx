@@ -34,16 +34,8 @@ export function AutoTraderContentLayout() {
     return (
         <Grid item xs={12} container>
             <Switch>
-                <Route key={1} path='/home' children={<HomeLayout/>} />
-                 {
-                    routes.map((route, index) => {
-                        <Route
-                            key={index}
-                            path={route.path}
-                            children={<route.main />}
-                        />
-                    })
-                }
+                <Route key={0} path='/home' children={<HomeLayout/>} />
+                <Route key={1} path='/alert' children={<AlertLayout />} />
             </Switch>
         </Grid>
     ) 
