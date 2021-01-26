@@ -265,5 +265,6 @@ def post_users_user_id_monitor(user_id, body=None):  # noqa: E501
 
 ### Overwrite
 from .ping_controller import PingController
+from .login_controller import LoginController
 from .user_controller import UserController
 from .alert_controller import AlertController
