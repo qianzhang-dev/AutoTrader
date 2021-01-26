@@ -35,6 +35,8 @@ paths:
       operationId: get-users-userId
       description: Retrieve the information of the user with the matching user ID.
       parameters: []
+      security:
+        - basic_authorization: []
     patch:
       summary: Update User Information
       operationId: patch-users-userId
@@ -56,6 +58,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserRequest'
+      security:
+        - basic_authorization: []
     delete:
       summary: ''
       operationId: delete-users-userId
@@ -66,6 +70,8 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+      security:
+        - basic_authorization: []
   /user:
     post:
       summary: Create New User
@@ -88,7 +94,6 @@ paths:
               $ref: '#/components/schemas/UserRequest'
         description: ''
       description: Create a new user.
-      security: []
   '/users/{userId}/alerts':
     parameters:
       - schema:
@@ -118,6 +123,8 @@ paths:
       operationId: get-users-userId-alerts
       description: Get a list of alert that the user owns
       parameters: []
+      security:
+        - basic_authorization: []
   '/users/{userId}/alerts/{ticker}':
     parameters:
       - schema:
@@ -150,6 +157,8 @@ paths:
           description: Not Found
       operationId: get-users-userId-alerts-ticker
       description: Get the alert of a specific ticker for a user
+      security:
+        - basic_authorization: []
   '/users/{userId}/alert':
     parameters:
       - schema:
@@ -178,6 +187,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AlertRequest'
+      security:
+        - basic_authorization: []
   '/users/{userId}/alerts/{ticker}/{alertId}':
     parameters:
       - schema:
@@ -213,6 +224,8 @@ paths:
         '404':
           description: Not Found
       operationId: get-users-userId-alerts-ticker-alertId
+      security:
+        - basic_authorization: []
     patch:
       summary: ''
       operationId: patch-users-userId-alerts-ticker-alertId
@@ -227,12 +240,16 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+      security:
+        - basic_authorization: []
     delete:
       summary: ''
       operationId: delete-users-userId-alerts-ticker-alertId
       responses:
         '200':
           description: OK
+      security:
+        - basic_authorization: []
   /ping:
     get:
       summary: Healthcheck Endpoint
@@ -242,7 +259,6 @@ paths:
           description: OK
       operationId: get-ping
       description: Healthcheck endpoint of the current site
-      security: []
   /login:
     post:
       summary: ''
@@ -258,7 +274,8 @@ paths:
           description: Unauthorized
       description: ''
       parameters: []
-      security: []
+      security:
+        - basic_authorization: []
   '/users/{userId}/monitor':
     parameters:
       - schema:
@@ -289,6 +306,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/MonitorRequest'
+      security:
+        - basic_authorization: []
   '/users/{userId}/monitors?filter={eventType}':
     parameters:
       - schema:
@@ -320,6 +339,8 @@ paths:
         '404':
           description: Not Found
       operationId: get-users-userId-monitors
+      security:
+        - basic_authorization: []
   '/users/{userId}/monitors/{monitorId}':
     parameters:
       - schema:
@@ -349,6 +370,8 @@ paths:
         '404':
           description: Not Found
       operationId: get-users-userId-monitors-monitorId
+      security:
+        - basic_authorization: []
     delete:
       summary: ''
       operationId: delete-users-userId-monitors-monitorId
@@ -359,6 +382,8 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+      security:
+        - basic_authorization: []
     patch:
       summary: ''
       operationId: patch-users-userId-monitors-monitorId
@@ -373,6 +398,8 @@ paths:
           description: Unauthorized
         '404':
           description: Not Found
+      security:
+        - basic_authorization: []
 components:
   schemas:
     UserResponse:

@@ -24,9 +24,9 @@ POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "username": "fasdfasdfzvxc",
-    "password": "fqgascvabgreaegv",
-    "email": "sample@asdfvasdfvasdrgqwdfa.com"
+    "username": "rogerxman",
+    "password": "roger23",
+    "email": "awesome@gmail.com"
 }
 
 ### Get /users/<user_id>/alerts
@@ -52,6 +52,7 @@ content-type: application/json
 
 GET http://localhost:3000/users/1/alerts/MSFT/1 HTTP/1.1
 
-### Post /login
+### Post /login (Authorization header is base64.encode(username:password))
 
 Post http://localhost:3000/login
+Authorization: Basic cm9nZXJ4bWFuOnJvZ2VyMjM=

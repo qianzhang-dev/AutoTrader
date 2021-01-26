@@ -35,6 +35,8 @@ paths:
                 $ref: '#/components/schemas/UserResponse'
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     delete:
       operationId: delete_users_user_id
@@ -54,6 +56,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     patch:
       summary: Update User Information
@@ -85,6 +89,8 @@ paths:
           description: Not Found
         "409":
           description: Conflict
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /user:
     post:
@@ -107,7 +113,6 @@ paths:
           description: Bad Request
         "409":
           description: Conflict
-      security: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts:
     get:
@@ -140,6 +145,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts/{ticker}:
     get:
@@ -178,6 +185,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alert:
     post:
@@ -209,6 +218,8 @@ paths:
           description: Not Found
         "409":
           description: Conflict
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts/{ticker}/{alertId}:
     get:
@@ -251,6 +262,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     delete:
       operationId: delete_users_user_id_alerts_ticker_alert_id
@@ -282,6 +295,8 @@ paths:
       responses:
         "200":
           description: OK
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     patch:
       operationId: patch_users_user_id_alerts_ticker_alert_id
@@ -321,6 +336,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /ping:
     get:
@@ -331,7 +348,6 @@ paths:
       responses:
         "200":
           description: OK
-      security: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /login:
     post:
@@ -346,7 +362,8 @@ paths:
                 $ref: '#/components/schemas/UserResponse'
         "401":
           description: Unauthorized
-      security: []
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/monitor:
     post:
@@ -378,6 +395,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/monitors?filter={eventType}:
     get:
@@ -415,6 +434,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/monitors/{monitorId}:
     get:
@@ -449,6 +470,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     delete:
       operationId: delete_users_user_id_monitors_monitor_id
@@ -476,6 +499,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
     patch:
       operationId: patch_users_user_id_monitors_monitor_id
@@ -507,6 +532,8 @@ paths:
           description: Unauthorized
         "404":
           description: Not Found
+      security:
+      - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
