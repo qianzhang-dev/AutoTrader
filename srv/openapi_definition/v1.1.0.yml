@@ -51,6 +51,11 @@ paths:
           description: Not Found
         '409':
           description: Conflict
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
     delete:
       summary: ''
       operationId: delete-users-userId
@@ -83,6 +88,7 @@ paths:
               $ref: '#/components/schemas/UserRequest'
         description: ''
       description: Create a new user.
+      security: []
   '/users/{userId}/alerts':
     parameters:
       - schema:
@@ -252,6 +258,7 @@ paths:
           description: Unauthorized
       description: ''
       parameters: []
+      security: []
   '/users/{userId}/monitor':
     parameters:
       - schema:
@@ -501,6 +508,6 @@ components:
           type: string
           format: date-time
   securitySchemes:
-    Basic Authorization:
+    basic_authorization:
       type: http
       scheme: basic

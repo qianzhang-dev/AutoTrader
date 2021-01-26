@@ -30,6 +30,14 @@
 2. Hit F5, as the server will spin up in port `3000`
 
 ### Regenerate API
+```
+java -jar .\swagger-codegen-cli-3.0.24.jar generate \
+   -i .\AutoTrader\srv\openapi_definition\v1.1.0.yml \
+   -l python-flask \
+   -o .\AutoTrader\srv
+
+.\recover.ps1
+```
 
 ### External Resources
 1. All tickers: https://datahub.io/core/nyse-other-listings

@@ -2,7 +2,7 @@ GET http://localhost:3000/ping HTTP/1.1
 
 ### 
 
-GET http://localhost:3000/users/2 HTTP/1.1
+GET http://localhost:3000/users/5 HTTP/1.1
 content-type: application/json
 
 ###
@@ -11,7 +11,7 @@ PATCH http://localhost:3000/users/1 HTTP/1.1
 content-type: application/json
 
 {
-    "username": "roger",
+    "username": "great",
     "password": "greater",
     "email": "new@email.com"
 }
@@ -22,9 +22,9 @@ POST http://localhost:3000/user HTTP/1.1
 content-type: application/json
 
 {
-    "username": "newnew",
-    "password": "newnewnew",
-    "email": "sample@newnewnew.com"
+    "username": "fasdfasdfzvxc",
+    "password": "fqgascvabgreaegv",
+    "email": "sample@asdfvasdfvasdrgqwdfa.com"
 }
 
 ###
@@ -41,10 +41,10 @@ POST http://localhost:3000/users/1/alert HTTP/1.1
 content-type: application/json
 
 {
-    "ticker": "AMAZ",
+    "ticker": "MSFT",
     "eventType": "upCross",
-    "price": 12.34
+    "price": 43.21
 }
 
 ###
-GET http://localhost:3000/users/1/alerts/AMAZ/4 HTTP/1.1
+GET http://localhost:3000/users/1/alerts/MSFT/1 HTTP/1.1

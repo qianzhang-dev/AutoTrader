@@ -1,87 +1,110 @@
 import connexion
+import six
 
-from swagger_server.exceptions import InvalidRequestBody
-from swagger_server.models.alert import Alert  # noqa: E501
-from swagger_server.models.body import Body  # noqa: E501
-from swagger_server.models.body1 import Body1  # noqa: E501
-from swagger_server.models.body2 import Body2  # noqa: E501
-from swagger_server.models.user import User  # noqa: E501
+from swagger_server.models.alert_request import AlertRequest  # noqa: E501
+from swagger_server.models.alert_response import AlertResponse  # noqa: E501
+from swagger_server.models.monitor_request import MonitorRequest  # noqa: E501
+from swagger_server.models.monitor_response import MonitorResponse  # noqa: E501
+from swagger_server.models.user_request import UserRequest  # noqa: E501
+from swagger_server.models.user_response import UserResponse  # noqa: E501
 from swagger_server import util
 
-from .default_handler import DefaultHandler
 
-handler = DefaultHandler()
+def delete_users_user_id(user_id):  # noqa: E501
+    """delete_users_user_id
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
+def delete_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa: E501
+    """delete_users_user_id_alerts_ticker_alert_id
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param ticker: The ticker of alerts to be specified
+    :type ticker: str
+    :param alert_id: Id of an existing alert
+    :type alert_id: int
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
+def delete_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
+    """delete_users_user_id_monitors_monitor_id
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param monitor_id: Id of the registered monitor
+    :type monitor_id: int
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
 
 def get_ping():  # noqa: E501
-    handler.handle_get_ping()
-    return 'OK', 200
+    """Healthcheck Endpoint
+
+    Healthcheck endpoint of the current site # noqa: E501
 
 
-def get_users_user_id(user_id: int, key=None):  # noqa: E501
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
+def get_users_user_id(user_id):  # noqa: E501
     """Get User Info by User ID
 
     Retrieve the information of the user with the matching user ID. # noqa: E501
 
-    :param user_id: Id of an existing user.
+    :param user_id: Id of an existing user
     :type user_id: int
-    :param key: Your Api Key To Access This Site
-    :type key: str
 
-    :rtype: User
+    :rtype: UserResponse
     """
-    result = handler.handle_get_users_user_id(user_id)
-
-    return {
-        'id': result.id,
-        'username': result.username,
-        'email': result.email,
-        'emailVerified': True,
-        'createDate': result.created_timestamp.isoformat()
-    }, 200
+    return 'do some magic!'
 
 
-def get_users_user_id_alerts(user_id: str):  # noqa: E501
+def get_users_user_id_alerts(user_id):  # noqa: E501
     """Get all alerts bound to a user
 
     Get a list of alert that the user owns # noqa: E501
 
-    :param user_id: 
-    :type user_id: str
+    :param user_id: Id of an existing user
+    :type user_id: int
 
-    :rtype: List[Alert]
+    :rtype: List[AlertResponse]
     """
-    result = handler.handle_get_users_user_id_alerts(user_id)
-
-    return [{
-        'id': alert.id,
-        'ownerId': alert.owner_id,
-        'ticker': alert.ticker,
-        'eventType': alert.event_type,
-        'price': alert.price
-    } for alert in result], 200
+    return 'do some magic!'
 
 
-def get_users_user_id_alerts_ticker(user_id: str, ticker: str):  # noqa: E501
+def get_users_user_id_alerts_ticker(user_id, ticker):  # noqa: E501
     """Get alerts bound to user matches the ticker
 
     Get the alert of a specific ticker for a user # noqa: E501
 
-    :param user_id: 
-    :type user_id: str
-    :param ticker: 
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param ticker: The ticker of alerts to be specified
     :type ticker: str
 
-    :rtype: List[Alert]
+    :rtype: List[AlertResponse]
     """
-    result = handler.handle_get_users_user_id_alerts_ticker(user_id, ticker)
-
-    return [{
-        'id': alert.id,
-        'ownerId': alert.owner_id,
-        'ticker': alert.ticker,
-        'eventType': alert.event_type,
-        'price': alert.price
-    } for alert in result], 200
+    return 'do some magic!'
 
 
 def get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa: E501
@@ -89,50 +112,106 @@ def get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa
 
      # noqa: E501
 
-    :param user_id: 
-    :type user_id: str
-    :param ticker: 
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param ticker: The ticker of alerts to be specified
     :type ticker: str
-    :param alert_id: 
-    :type alert_id: str
+    :param alert_id: Id of an existing alert
+    :type alert_id: int
 
-    :rtype: Alert
+    :rtype: AlertResponse
     """
-    result = handler.get_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id)
-    return {
-        'id': result.id,
-        'ownerId': result.owner_id,
-        'ticker': result.ticker,
-        'eventType': result.event_type,
-        'price': result.price
-    }, 200
+    return 'do some magic!'
+
+
+def get_users_user_id_monitors(user_id, event_type):  # noqa: E501
+    """Your GET endpoint
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param event_type: The list of eventTypes (e.g. upCross50MA,downCross100MA)
+    :type event_type: str
+
+    :rtype: List[MonitorResponse]
+    """
+    return 'do some magic!'
+
+
+def get_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
+    """Your GET endpoint
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param monitor_id: Id of the registered monitor
+    :type monitor_id: int
+
+    :rtype: MonitorResponse
+    """
+    return 'do some magic!'
 
 
 def patch_users_user_id(user_id, body=None):  # noqa: E501
     """Update User Information
 
-    Update the infromation of an existing user. # noqa: E501
+     # noqa: E501
 
-    :param user_id: Id of an existing user.
+    :param user_id: Id of an existing user
     :type user_id: int
-    :param body: Patch user properties to update.
+    :param body: 
     :type body: dict | bytes
 
-    :rtype: User
+    :rtype: UserResponse
     """
     if connexion.request.is_json:
-        body = Body.from_dict(connexion.request.get_json())  # noqa: E501
-        result = handler.handle_patch_users_user_id(user_id, body)
+        body = UserRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
-        return {
-            'id': result.id,
-            'username': result.username,
-            'email': result.email,
-            'emailVerified': True,
-            'createDate': result.created_timestamp.isoformat()
-        }, 200
-    else:
-        raise InvalidRequestBody()
+
+def patch_users_user_id_alerts_ticker_alert_id(user_id, ticker, alert_id):  # noqa: E501
+    """patch_users_user_id_alerts_ticker_alert_id
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param ticker: The ticker of alerts to be specified
+    :type ticker: str
+    :param alert_id: Id of an existing alert
+    :type alert_id: int
+
+    :rtype: AlertResponse
+    """
+    return 'do some magic!'
+
+
+def patch_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
+    """patch_users_user_id_monitors_monitor_id
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param monitor_id: Id of the registered monitor
+    :type monitor_id: int
+
+    :rtype: MonitorResponse
+    """
+    return 'do some magic!'
+
+
+def post_login():  # noqa: E501
+    """post_login
+
+     # noqa: E501
+
+
+    :rtype: UserResponse
+    """
+    return 'do some magic!'
 
 
 def post_user(body=None):  # noqa: E501
@@ -140,24 +219,14 @@ def post_user(body=None):  # noqa: E501
 
     Create a new user. # noqa: E501
 
-    :param body: Post the necessary fields for the API to create a new user.
+    :param body: 
     :type body: dict | bytes
 
-    :rtype: User
+    :rtype: UserResponse
     """
     if connexion.request.is_json:
-        body = Body1.from_dict(connexion.request.get_json())  # noqa: E501
-        result = handler.handle_post_user(body)
-
-        return {
-            'id': result.id,
-            'username': result.username,
-            'email': result.email,
-            'emailVerified': True,
-            'createDate': result.created_timestamp.isoformat()
-        }, 200
-    else:
-        raise InvalidRequestBody()
+        body = UserRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
 def post_users_user_id_alert(user_id, body=None):  # noqa: E501
@@ -165,23 +234,36 @@ def post_users_user_id_alert(user_id, body=None):  # noqa: E501
 
     Create a new alert for a specific ticker on a specific event # noqa: E501
 
-    :param user_id: 
-    :type user_id: str
+    :param user_id: Id of an existing user
+    :type user_id: int
     :param body: 
     :type body: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
-        body = Body2.from_dict(connexion.request.get_json())  # noqa: E501
-        result = handler.handle_post_users_user_id_alert(user_id, body)
+        body = AlertRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
-        return {
-            'id': result.id,
-            'ownerId': result.owner_id,
-            'ticker': result.ticker,
-            'eventType': result.event_type,
-            'price': result.price
-        }, 201
-    else:
-        raise InvalidRequestBody()
+
+def post_users_user_id_monitor(user_id, body=None):  # noqa: E501
+    """post_users_user_id_monitor
+
+     # noqa: E501
+
+    :param user_id: Id of an existing user
+    :type user_id: int
+    :param body: 
+    :type body: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        body = MonitorRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+### Overwrite
+from .ping_controller import PingController
+from .user_controller import UserController
+from .alert_controller import AlertController

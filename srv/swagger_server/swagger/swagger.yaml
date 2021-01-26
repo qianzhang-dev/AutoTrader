@@ -1,7 +1,13 @@
 openapi: 3.0.0
 info:
   title: AutoTrader
-  version: "1.0"
+  termsOfService: https://github.com/qianzhang-dev/AutoTrader
+  contact:
+    name: DinasourFaFaFa
+    url: DinasourFaFaFa
+  license:
+    name: MIT
+  version: 1.1.0
 servers:
 - url: http://localhost:3000
 paths:
@@ -14,71 +20,71 @@ paths:
       parameters:
       - name: userId
         in: path
-        description: Id of an existing user.
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
           type: integer
-      - name: key
-        in: query
-        description: Your Api Key To Access This Site
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: string
       responses:
         "200":
           description: User Found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserResponse'
         "404":
-          description: User Not Found
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    delete:
+      operationId: delete_users_user_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
       x-openapi-router-controller: swagger_server.controllers.default_controller
     patch:
       summary: Update User Information
-      description: Update the infromation of an existing user.
       operationId: patch_users_user_id
       parameters:
       - name: userId
         in: path
-        description: Id of an existing user.
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
           type: integer
       requestBody:
-        description: Patch user properties to update.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body'
-            examples:
-              Update First Name:
-                value:
-                  firstName: Rebecca
-              Update Email:
-                value:
-                  email: rebecca@gmail.com
-              Update Last Name & Date of Birth:
-                value:
-                  lastName: Baker
-                  dateOfBirth: 1985-10-02
+              $ref: '#/components/schemas/UserRequest'
       responses:
         "200":
-          description: User Updated
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserResponse'
+        "401":
+          description: Unauthorized
         "404":
-          description: User Not Found
+          description: Not Found
         "409":
-          description: Email Already Taken
+          description: Conflict
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /user:
     post:
@@ -86,22 +92,22 @@ paths:
       description: Create a new user.
       operationId: post_user
       requestBody:
-        description: Post the necessary fields for the API to create a new user.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_1'
+              $ref: '#/components/schemas/UserRequest'
       responses:
         "200":
           description: User Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserResponse'
         "400":
-          description: Missing Required Information
+          description: Bad Request
         "409":
-          description: Email Already Taken
+          description: Conflict
+      security: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts:
     get:
@@ -112,11 +118,12 @@ paths:
       parameters:
       - name: userId
         in: path
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
-          type: string
+          type: integer
       responses:
         "200":
           description: OK
@@ -125,14 +132,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Alert'
+                  $ref: '#/components/schemas/AlertResponse'
                 x-content-type: application/json
         "204":
           description: No Content
         "401":
-          description: 'Unauthorized: Insufficient Permission To View This Alert List'
+          description: Unauthorized
         "404":
-          description: 'Not Found: Alert List Does Not Exist'
+          description: Not Found
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts/{ticker}:
     get:
@@ -143,13 +150,15 @@ paths:
       parameters:
       - name: userId
         in: path
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
-          type: string
+          type: integer
       - name: ticker
         in: path
+        description: The ticker of alerts to be specified
         required: true
         style: simple
         explode: false
@@ -163,13 +172,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Alert'
+                  $ref: '#/components/schemas/AlertResponse'
                 x-content-type: application/json
         "401":
-          description: 'Unauthorized: You Don''t Have Permission To View This Alert
-            List'
+          description: Unauthorized
         "404":
-          description: 'Not Found: Alert List Does Not Exist'
+          description: Not Found
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alert:
     post:
@@ -179,26 +187,28 @@ paths:
       parameters:
       - name: userId
         in: path
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
-          type: string
+          type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_2'
+              $ref: '#/components/schemas/AlertRequest'
       responses:
         "201":
           description: Created
         "400":
-          description: 'Bad Request: Ticker Not Found'
+          description: Bad Request
         "401":
-          description: 'Unauthorized: Insufficient Permission To Create Alert On This
-            User Id'
+          description: Unauthorized
+        "404":
+          description: Not Found
         "409":
-          description: 'Conflict: Alert Already Exist'
+          description: Conflict
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /users/{userId}/alerts/{ticker}/{alertId}:
     get:
@@ -208,13 +218,15 @@ paths:
       parameters:
       - name: userId
         in: path
+        description: Id of an existing user
         required: true
         style: simple
         explode: false
         schema:
-          type: string
+          type: integer
       - name: ticker
         in: path
+        description: The ticker of alerts to be specified
         required: true
         style: simple
         explode: false
@@ -222,6 +234,168 @@ paths:
           type: string
       - name: alertId
         in: path
+        description: Id of an existing alert
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    delete:
+      operationId: delete_users_user_id_alerts_ticker_alert_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: ticker
+        in: path
+        description: The ticker of alerts to be specified
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        description: Id of an existing alert
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    patch:
+      operationId: patch_users_user_id_alerts_ticker_alert_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: ticker
+        in: path
+        description: The ticker of alerts to be specified
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        description: Id of an existing alert
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /ping:
+    get:
+      tags: []
+      summary: Healthcheck Endpoint
+      description: Healthcheck endpoint of the current site
+      operationId: get_ping
+      responses:
+        "200":
+          description: OK
+      security: []
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /login:
+    post:
+      operationId: post_login
+      parameters: []
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        "401":
+          description: Unauthorized
+      security: []
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/monitor:
+    post:
+      operationId: post_users_user_id_monitor
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorRequest'
+      responses:
+        "200":
+          description: OK
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /users/{userId}/monitors?filter={eventType}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      operationId: get_users_user_id_monitors
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: eventType
+        in: path
+        description: The list of eventTypes (e.g. upCross50MA,downCross100MA)
         required: true
         style: simple
         explode: false
@@ -233,30 +407,111 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Alert'
+                type: array
+                items:
+                  $ref: '#/components/schemas/MonitorResponse'
+                x-content-type: application/json
         "401":
-          description: 'Unauthorized: Insufficient Permission To View This Alert'
+          description: Unauthorized
         "404":
-          description: 'Not Found: Alert Does Not Exist'
+          description: Not Found
       x-openapi-router-controller: swagger_server.controllers.default_controller
-  /ping:
+  /users/{userId}/monitors/{monitorId}:
     get:
       tags: []
-      summary: Healthcheck Endpoint
-      operationId: get_ping
+      summary: Your GET endpoint
+      operationId: get_users_user_id_monitors_monitor_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: monitorId
+        in: path
+        description: Id of the registered monitor
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    delete:
+      operationId: delete_users_user_id_monitors_monitor_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: monitorId
+        in: path
+        description: Id of the registered monitor
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    patch:
+      operationId: patch_users_user_id_monitors_monitor_id
+      parameters:
+      - name: userId
+        in: path
+        description: Id of an existing user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: monitorId
+        in: path
+        description: Id of the registered monitor
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
       x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
-    User:
-      title: User
-      required:
-      - email
-      - emailVerified
-      - id
-      - username
+    UserResponse:
+      title: UserResponse
       type: object
       properties:
         id:
@@ -274,16 +529,20 @@ components:
         emailVerified:
           type: boolean
           description: Set to true if the user's email has been verified.
-        createDate:
+        createdDate:
           type: string
           description: The date that the user was created.
-          format: date
+          format: date-time
+        lastLoggedInDate:
+          type: string
+          format: date-time
       example:
         emailVerified: true
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        lastLoggedInDate: 2000-01-23T04:56:07.000+00:00
         id: 1
         email: roger@xman.com
         username: rogerxman
-        createDate: 2000-01-23
       x-examples:
         Alice Smith:
           id: 142
@@ -293,8 +552,8 @@ components:
           dateOfBirth: 1997-10-31
           emailVerified: true
           signUpDate: 2019-08-24
-    Alert:
-      title: Alert
+    AlertResponse:
+      title: AlertResponse
       type: object
       properties:
         id:
@@ -310,40 +569,27 @@ components:
           example: MSFT
         disabled:
           type: boolean
-        createTime:
+        createdTime:
           type: string
-          format: date
-        lastTriggerTime:
+          format: date-time
+        lastTriggeredTime:
           type: string
-          format: date
+          format: date-time
         ownerId:
           type: integer
         price:
           type: number
       example:
         ticker: MSFT
-        createTime: 2000-01-23
+        lastTriggeredTime: 2000-01-23T04:56:07.000+00:00
         price: 1.4658129805029452
-        lastTriggerTime: 2000-01-23
+        createdTime: 2000-01-23T04:56:07.000+00:00
         disabled: true
         id: 0
         eventType: upCross
         ownerId: 6
-    body:
-      type: object
-      properties:
-        username:
-          type: string
-          description: The username that needs to be updated to
-        password:
-          type: string
-          description: The new password that needs to be changed to
-          format: password
-        email:
-          type: string
-          description: The new email address that needs to be changed to
-          format: email
-    body_1:
+    UserRequest:
+      title: UserRequest
       required:
       - email
       - password
@@ -352,16 +598,18 @@ components:
       properties:
         username:
           type: string
-          description: The username of this account
         password:
           type: string
-          description: The password of this account
           format: password
         email:
           type: string
-          description: The email address to receive the ticker notification
           format: email
-    body_2:
+    AlertRequest:
+      title: AlertRequest
+      required:
+      - eventType
+      - price
+      - ticker
       type: object
       properties:
         ticker:
@@ -373,5 +621,51 @@ components:
           - downCross
         price:
           type: number
-  securitySchemes: {}
+    MonitorRequest:
+      title: MonitorRequest
+      required:
+      - eventType
+      - ticker
+      type: object
+      properties:
+        ticker:
+          type: string
+        eventType:
+          type: string
+          enum:
+          - downCross50MA
+          - upCross50MA
+          - downCross100MA
+          - upCross100MA
+          - downCross10MA
+          - upCross10MA
+          - downCross200MA
+          - upCross200MA
+    MonitorResponse:
+      title: MonitorResponse
+      type: object
+      properties:
+        id:
+          type: string
+        eventType:
+          type: string
+        ticker:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        lastTriggeredDate:
+          type: string
+          format: date-time
+      example:
+        ticker: ticker
+        createdDate: 2000-01-23T04:56:07.000+00:00
+        id: id
+        eventType: eventType
+        lastTriggeredDate: 2000-01-23T04:56:07.000+00:00
+  securitySchemes:
+    basic_authorization:
+      type: http
+      scheme: basic
+      x-basicInfoFunc: swagger_server.controllers.authorization_controller.check_basic_authorization
 
