@@ -7,7 +7,7 @@ import bcrypt
 
 from ..models import UserRequest, UserResponse
 from ..db_models import DbUser
-from ..exceptions import InvalidRequestBody, UserNotFound, EmailAlreadyRegistered
+from ..exceptions import InvalidRequestBody, UserNotFound, EmailAlreadyRegistered, UsernameAlreadyRegistered
 from .controller_meta import ControllerMeta
 
 
@@ -39,7 +39,11 @@ class UserController(metaclass=ControllerMeta):
         # Validate if email is colided
         collided: List[DbUser] = cls.db.session.query(DbUser).filter(DbUser.email == body.email.lower()).all()
         if collided:
-            raise EmailAlreadyRegistered(body.email.lower(), 409)
+            raise EmailAlreadyRegistered(body.email, 409)
+
+        collided_username: List[DbUser] = cls.db.session.query(DbUser).filter(DbUser.username == body.username.lower()).all()
+        if collided_username:
+            raise UsernameAlreadyRegistered(body.username, 409)
         
         # Create new user
         user = DbUser()

@@ -1,0 +1,559 @@
+openapi: 3.0.0
+info:
+  title: AutoTrader
+  version: 1.1.0
+  contact:
+    name: DinasourFaFaFa
+    url: DinasourFaFaFa
+  termsOfService: 'https://github.com/qianzhang-dev/AutoTrader'
+  license:
+    name: MIT
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/users/{userId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          headers: {}
+        '404':
+          description: Not Found
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+      parameters: []
+      security:
+        - basic_authorization: []
+    patch:
+      summary: Update User Information
+      operationId: patch-users-userId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      security:
+        - basic_authorization: []
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      security:
+        - basic_authorization: []
+  /user:
+    post:
+      summary: Create New User
+      operationId: post-user
+      responses:
+        '200':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request
+        '409':
+          description: Conflict
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        description: ''
+      description: Create a new user.
+  '/users/{userId}/alerts':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+    get:
+      summary: Get all alerts bound to a user
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertResponse'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId-alerts
+      description: Get a list of alert that the user owns
+      parameters: []
+      security:
+        - basic_authorization: []
+  '/users/{userId}/alerts/{ticker}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+      - schema:
+          type: string
+        name: ticker
+        in: path
+        required: true
+        description: The ticker of alerts to be specified
+    get:
+      summary: Get alerts bound to user matches the ticker
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlertResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId-alerts-ticker
+      description: Get the alert of a specific ticker for a user
+      security:
+        - basic_authorization: []
+  '/users/{userId}/alert':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+    post:
+      summary: Create an alert with expected rules
+      operationId: post-users-userId-alert
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '409':
+          description: Conflict
+      description: Create a new alert for a specific ticker on a specific event
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertRequest'
+      security:
+        - basic_authorization: []
+  '/users/{userId}/alerts/{ticker}/{alertId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+      - schema:
+          type: string
+        name: ticker
+        in: path
+        required: true
+        description: The ticker of alerts to be specified
+      - schema:
+          type: integer
+        name: alertId
+        in: path
+        required: true
+        description: Id of an existing alert
+    get:
+      summary: Get a specific alert by id
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId-alerts-ticker-alertId
+      security:
+        - basic_authorization: []
+    patch:
+      summary: ''
+      operationId: patch-users-userId-alerts-ticker-alertId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      security:
+        - basic_authorization: []
+    delete:
+      summary: ''
+      operationId: delete-users-userId-alerts-ticker-alertId
+      responses:
+        '200':
+          description: OK
+      security:
+        - basic_authorization: []
+  /ping:
+    get:
+      summary: Healthcheck Endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: get-ping
+      description: Healthcheck endpoint of the current site
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          description: Unauthorized
+      description: ''
+      parameters: []
+      security:
+        - basic_authorization: []
+  '/users/{userId}/monitor':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+    post:
+      summary: ''
+      operationId: post-users-userId-monitor
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitorRequest'
+      security:
+        - basic_authorization: []
+  '/users/{userId}/monitors?filter={eventType}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+      - schema:
+          type: string
+        name: eventType
+        in: path
+        description: 'The list of eventTypes (e.g. upCross50MA,downCross100MA)'
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MonitorResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId-monitors
+      security:
+        - basic_authorization: []
+  '/users/{userId}/monitors/{monitorId}':
+    parameters:
+      - schema:
+          type: integer
+        name: userId
+        in: path
+        required: true
+        description: Id of an existing user
+      - schema:
+          type: integer
+        name: monitorId
+        in: path
+        required: true
+        description: Id of the registered monitor
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-users-userId-monitors-monitorId
+      security:
+        - basic_authorization: []
+    delete:
+      summary: ''
+      operationId: delete-users-userId-monitors-monitorId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      security:
+        - basic_authorization: []
+    patch:
+      summary: ''
+      operationId: patch-users-userId-monitors-monitorId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      security:
+        - basic_authorization: []
+  /strategy:
+    post:
+      summary: ''
+      operationId: post-strategy
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: ''
+      operationId: patch-strategy
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    UserResponse:
+      title: UserResponse
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          example: 1
+        username:
+          type: string
+          description: The username of the user
+          example: rogerxman
+        email:
+          type: string
+          format: email
+          example: roger@xman.com
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createdDate:
+          type: string
+          format: date-time
+          description: The date that the user was created.
+        lastLoggedInDate:
+          type: string
+          format: date-time
+    AlertResponse:
+      title: AlertResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        eventType:
+          type: string
+          enum:
+            - upCross
+            - downCross
+          example: upCross
+        ticker:
+          type: string
+          example: MSFT
+        disabled:
+          type: boolean
+        createdTime:
+          type: string
+          format: date-time
+        lastTriggeredTime:
+          type: string
+          format: date-time
+        ownerId:
+          type: integer
+        price:
+          type: number
+    UserRequest:
+      title: UserRequest
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        email:
+          type: string
+          format: email
+      required:
+        - username
+        - password
+        - email
+    AlertRequest:
+      title: AlertRequest
+      type: object
+      properties:
+        ticker:
+          type: string
+        eventType:
+          type: string
+          enum:
+            - upCross
+            - downCross
+        price:
+          type: number
+      required:
+        - ticker
+        - eventType
+        - price
+    MonitorRequest:
+      title: MonitorRequest
+      type: object
+      properties:
+        ticker:
+          type: string
+        eventType:
+          type: string
+          enum:
+            - downCross50MA
+            - upCross50MA
+            - downCross100MA
+            - upCross100MA
+            - downCross10MA
+            - upCross10MA
+            - downCross200MA
+            - upCross200MA
+      required:
+        - ticker
+        - eventType
+    MonitorResponse:
+      title: MonitorResponse
+      type: object
+      properties:
+        id:
+          type: string
+        eventType:
+          type: string
+        ticker:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        lastTriggeredDate:
+          type: string
+          format: date-time
+    StrategyRequest:
+      title: StrategyRequest
+      type: object
+      properties:
+        id:
+          type: string
+  securitySchemes:
+    basic_authorization:
+      type: http
+      scheme: basic

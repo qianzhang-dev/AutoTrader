@@ -535,6 +535,19 @@ paths:
       security:
       - basic_authorization: []
       x-openapi-router-controller: swagger_server.controllers.default_controller
+  /strategy:
+    post:
+      operationId: post_strategy
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    patch:
+      operationId: patch_strategy
+      responses:
+        "200":
+          description: OK
+      x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
     UserResponse:

@@ -154,6 +154,17 @@ def get_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
     return 'do some magic!'
 
 
+def patch_strategy():  # noqa: E501
+    """patch_strategy
+
+     # noqa: E501
+
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
 def patch_users_user_id(user_id, body=None):  # noqa: E501
     """Update User Information
 
@@ -214,6 +225,17 @@ def post_login():  # noqa: E501
     return 'do some magic!'
 
 
+def post_strategy():  # noqa: E501
+    """post_strategy
+
+     # noqa: E501
+
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
 def post_user(body=None):  # noqa: E501
     """Create New User
 
@@ -261,10 +283,3 @@ def post_users_user_id_monitor(user_id, body=None):  # noqa: E501
     if connexion.request.is_json:
         body = MonitorRequest.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
-
-
-### Overwrite
-from .ping_controller import PingController
-from .login_controller import LoginController
-from .user_controller import UserController
-from .alert_controller import AlertController
