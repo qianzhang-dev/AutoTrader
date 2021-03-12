@@ -28,15 +28,17 @@
 ### Debug Project
 1. Set breakpoint in the .py file
 2. Hit F5, as the server will spin up in port `3000`
+3. http://localhost:3000/api-docs
 
 ### Regenerate API
 ```
-java -jar .\swagger-codegen-cli-3.0.24.jar generate \
-   -i .\AutoTrader\srv\openapi_definition\v1.2.0.yml \
-   -l python-flask \
-   -o .\AutoTrader\srv
+java -jar ./swagger-codegen-cli-3.0.24.jar generate \
+   -i ./AutoTrader/srv/openapi_definition/v1.2.0.yml \
+   -l python-flask /
+   -o ./AutoTrader/srv
 
-.\recover.ps1
+./recover.ps1
+./recover.sh
 ```
 
 ### External Resources
