@@ -34,7 +34,7 @@
 ```
 java -jar ./swagger-codegen-cli-3.0.24.jar generate \
    -i ./AutoTrader/srv/openapi_definition/v1.2.0.yml \
-   -l python-flask /
+   -l python-flask \
    -o ./AutoTrader/srv
 
 ./recover.ps1

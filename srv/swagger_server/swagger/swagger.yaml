@@ -537,16 +537,115 @@ paths:
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /strategy:
     post:
+      description: Create a new strategy.
       operationId: post_strategy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyRequest'
       responses:
         "200":
           description: OK
+        "400":
+          description: Bad Request
       x-openapi-router-controller: swagger_server.controllers.default_controller
     patch:
+      description: Update an exisiting strategy.
       operationId: patch_strategy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyRequest'
       responses:
         "200":
           description: OK
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /strategyActivity:
+    post:
+      description: Create a new activity for strategy.
+      operationId: post_strategy_activity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyActivityRequest'
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    patch:
+      description: Update an existing activity for streategy.
+      operationId: patch_strategy_activity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyActivityRequest'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /strategy/{ownerId}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all strategies of a specific user.
+      operationId: get_strategy_owner_id
+      parameters:
+      - name: ownerId
+        in: path
+        description: owner id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StrategyResponse'
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /strategyActivity/{strategyId}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all activities of the specific strategy.
+      operationId: get_strategy_activity_strategy_id
+      parameters:
+      - name: strategyId
+        in: path
+        description: strategy id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StrategyActivityResponse'
+                x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
@@ -703,6 +802,174 @@ components:
         id: id
         eventType: eventType
         lastTriggeredDate: 2000-01-23T04:56:07.000+00:00
+    StrategyRequest:
+      title: StrategyRequest
+      required:
+      - is_completed
+      - owner_id
+      - sector
+      - strategy_name
+      - strategy_type
+      - term
+      - ticker
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_name:
+          type: string
+        owner_id:
+          type: integer
+        strategy_type:
+          type: string
+        is_completed:
+          type: boolean
+        ticker:
+          type: string
+        term:
+          type: string
+        sector:
+          type: string
+        goal_summary:
+          type: string
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+        cost_basis:
+          type: number
+        quantity:
+          type: integer
+        total_return:
+          type: number
+        dividend_return:
+          type: number
+    StrategyResponse:
+      title: StrategyResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_name:
+          type: string
+        owner_id:
+          type: integer
+        strategy_type:
+          type: string
+        is_completed:
+          type: boolean
+        ticker:
+          type: string
+        term:
+          type: string
+        sector:
+          type: string
+        goal_summary:
+          type: string
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+        cost_basis:
+          type: number
+        quantity:
+          type: integer
+        total_return:
+          type: number
+        dividend_return:
+          type: number
+      example:
+        ticker: ticker
+        quantity: 2
+        owner_id: 6
+        strategy_type: strategy_type
+        is_completed: true
+        cost_basis: 5.637376656633329
+        total_return: 7.061401241503109
+        stop_loss_prices:
+        - 5.962133916683182
+        - 5.962133916683182
+        goal_summary: goal_summary
+        target_prices:
+        - 1.4658129805029452
+        - 1.4658129805029452
+        dividend_return: 9.301444243932576
+        term: term
+        id: 0
+        sector: sector
+        strategy_name: strategy_name
+    StrategyActivityRequest:
+      title: StrategyActivityRequest
+      required:
+      - operator
+      - strategy_id
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_id:
+          type: integer
+        operator:
+          type: string
+        comment:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+    StrategyActivityResponse:
+      title: StrategyActivityResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_id:
+          type: integer
+        operator:
+          type: string
+        comment:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+      example:
+        stop_loss_prices:
+        - 2.3021358869347655
+        - 2.3021358869347655
+        quantity: 5
+        price: 1.4658129805029452
+        strategy_id: 6
+        target_prices:
+        - 5.637376656633329
+        - 5.637376656633329
+        comment: comment
+        id: 0
+        operator: operator
   securitySchemes:
     basic_authorization:
       type: http

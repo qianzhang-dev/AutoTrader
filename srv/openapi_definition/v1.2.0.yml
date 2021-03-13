@@ -407,12 +407,104 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+      description: Create a new strategy.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyRequest'
     patch:
       summary: ''
       operationId: patch-strategy
       responses:
         '200':
           description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+      description: Update an exisiting strategy.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyRequest'
+    parameters: []
+  /strategyActivity:
+    post:
+      summary: ''
+      operationId: post-strategyActivity
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+      description: Create a new activity for strategy.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyActivityRequest'
+    patch:
+      summary: ''
+      operationId: patch-strategyActivity
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: Update an existing activity for streategy.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategyActivityRequest'
+  '/strategy/{ownerId}':
+    parameters:
+      - schema:
+          type: integer
+        name: ownerId
+        in: path
+        required: true
+        description: owner id
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StrategyResponse'
+      operationId: get-strategy-ownerId
+      description: Get all strategies of a specific user.
+  '/strategyActivity/{strategyId}':
+    parameters:
+      - schema:
+          type: integer
+        name: strategyId
+        in: path
+        required: true
+        description: strategy id
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StrategyActivityResponse'
+      operationId: get-strategyActivity-strategyId
+      description: Get all activities of the specific strategy.
 components:
   schemas:
     UserResponse:
@@ -552,7 +644,136 @@ components:
       type: object
       properties:
         id:
+          type: integer
+        strategy_name:
           type: string
+        owner_id:
+          type: integer
+        strategy_type:
+          type: string
+        is_completed:
+          type: boolean
+        ticker:
+          type: string
+        term:
+          type: string
+        sector:
+          type: string
+        goal_summary:
+          type: string
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+        cost_basis:
+          type: number
+        quantity:
+          type: integer
+        total_return:
+          type: number
+        dividend_return:
+          type: number
+      required:
+        - strategy_name
+        - owner_id
+        - strategy_type
+        - is_completed
+        - ticker
+        - term
+        - sector
+    StrategyResponse:
+      title: StrategyResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_name:
+          type: string
+        owner_id:
+          type: integer
+        strategy_type:
+          type: string
+        is_completed:
+          type: boolean
+        ticker:
+          type: string
+        term:
+          type: string
+        sector:
+          type: string
+        goal_summary:
+          type: string
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+        cost_basis:
+          type: number
+        quantity:
+          type: integer
+        total_return:
+          type: number
+        dividend_return:
+          type: number
+    StrategyActivityRequest:
+      title: StrategyActivityRequest
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_id:
+          type: integer
+        operator:
+          type: string
+        comment:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
+      required:
+        - strategy_id
+        - operator
+    StrategyActivityResponse:
+      title: StrategyActivityResponse
+      type: object
+      properties:
+        id:
+          type: integer
+        strategy_id:
+          type: integer
+        operator:
+          type: string
+        comment:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: integer
+        target_prices:
+          type: array
+          items:
+            type: number
+        stop_loss_prices:
+          type: array
+          items:
+            type: number
   securitySchemes:
     basic_authorization:
       type: http

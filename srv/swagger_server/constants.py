@@ -1,5 +1,6 @@
 from os import path
 import sqlalchemy as db
+import enum
 
 SWAGGER_SPEC_DIR = path.join(path.dirname(__file__), 'swagger')
 SWAGGER_CONFIG = path.join(path.dirname(__file__), 'swagger', 'swagger.yaml')
@@ -8,7 +9,7 @@ SWAGGER_URL_PREFIX = '/api-docs'
 SQLITE_DB_CONNSTR = 'sqlite:///example.sqlite'
 
 # db common class
-class DbTradeOperation(db.Enum):
+class DbTradeOperation(enum.Enum):
     NONE = 'none'
     BUY= 'buy'
     SELL = 'sell'
@@ -25,8 +26,13 @@ class DbTradeOperation(db.Enum):
     EXPIRE_PUT = 'put expired'
     SELL_CLOSE_PUT = 'sell to close put'
 
+    CHANGE_TARGET_PRICES = 'change target price'
+    CHANGE_STOP_LOSS_PRICES = 'change stop loss price'
 
-class DbStockSector(db.Enum):
+    DIVIDEND_EARNING = 'dividend earning'
+
+
+class DbStockSector(enum.Enum):
     BASIC_MATERIALS = 'Basic Materials'
     INDUSTRIALS = 'Industrials'
     FINANCIAL_SERVICES = 'Financial Services'
@@ -40,16 +46,19 @@ class DbStockSector(db.Enum):
     UTILITIES = 'Utilities'
 
 
-class DbTradeTerm(db.Enum):
+class DbTradeTerm(enum.Enum):
     LONG_TERM = 'long term'
     SHORT_TERM = 'short term'
     MIDDLE_TERM = 'middle term'
     FLEX_TERM = 'flex'
 
 
-class DbStrategyType(db.Enum):
+class DbStrategyType(enum.Enum):
     SPAC = 'SPAC'
-    BUY_LOW_SELL_HIGH = '高抛低吸'
-    LONG_HOLD = '长持'
-    SHORT_HOLD = '短线'
-    #DAY_TRADE = '日内'
+    BUY_LOW_SELL_HIGH = 'General buy low sell high'
+    LONG_HOLD = 'Long term holding'
+    SHORT_HOLD = 'Short term holding'
+    DAY_TRADE = 'Day trade'
+    DIVIDEND_INVESTMENT = 'Divdend investment'
+
+
