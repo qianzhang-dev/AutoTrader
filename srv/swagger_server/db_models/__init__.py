@@ -3,6 +3,7 @@ from .db_user import DbUser
 from .db_alert import DbAlert
 from .db_strategy import DbStrategy
 from .db_strategy_activity import DbStrategyActivity
+from .db_ticker import DbTicker
 
 __all__ = [
     'DbPingEvent',
@@ -10,4 +11,5 @@ __all__ = [
     'DbAlert',
     'DbStrategy',
     'DbStrategyActivity',
+    'DbTicker'
 ]

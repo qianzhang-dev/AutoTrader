@@ -21,7 +21,7 @@ def upgrade():
     op.create_table('db_ping_event',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('request_timestamp', sa.DateTime(), nullable=False),
-    sa.Column('user_agent', sa.NCHAR(length=1024), nullable=False),
+    sa.Column('user_agent', sa.NCHAR(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

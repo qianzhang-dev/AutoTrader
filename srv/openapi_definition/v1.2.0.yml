@@ -505,6 +505,183 @@ paths:
                   $ref: '#/components/schemas/StrategyActivityResponse'
       operationId: get-strategyActivity-strategyId
       description: Get all activities of the specific strategy.
+  /getAllTickersAndSectors:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '500':
+          description: Internal Server Error
+      operationId: get-getAllTickersAndSectors
+      description: Retrieve all tickers and related info (include sector) into Ticker database.
+  /tickers:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-tickers
+      description: Retrieve all tickers from database.
+  '/stockInfo/short/{ticker}':
+    parameters:
+      - schema:
+          type: string
+        name: ticker
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockInfoShort'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-stockInfo-short-ticker
+      description: Get short information of a stock by ticker.
+  /strategies:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-strategies
+      description: Get all strategies.
+  /sectors:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-sectors
+      description: Get all sectors.
+  /investmentTerms:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-investmentTerms
+      description: Get investment terms.
+  /tradeOperators:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-tradeOperators
+      description: Get all trade operators.
+  /marketCodes:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal Server Error
+      operationId: get-marketCodes
+      description: Get all market codes.
+  '/watchlist/{ownerId}':
+    parameters:
+      - schema:
+          type: string
+        name: ownerId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '404':
+          description: Not Found
+      operationId: get-watchlist-ownerId
+      description: Get watchlist of a specific user.
+  /watchlist:
+    post:
+      summary: ''
+      operationId: post-watchlist
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+      description: Update watchlist of a specific user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchlistRequest'
 components:
   schemas:
     UserResponse:
@@ -774,6 +951,62 @@ components:
           type: array
           items:
             type: number
+    StockInfoShort:
+      title: StockInfoShort
+      type: object
+      properties:
+        id:
+          type: integer
+        marketCode:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        sector:
+          type: string
+        currency:
+          type: string
+        ticker:
+          type: string
+    StockInfoLong:
+      title: StockInfoLong
+      type: object
+      properties:
+        id:
+          type: integer
+        ticker:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        currency:
+          type: string
+        sector:
+          type: string
+        industry:
+          type: string
+        annualDividend:
+          type: number
+        annualDividendRate:
+          type: number
+        forwardPE:
+          type: number
+        fiveYearsAvgDividend:
+          type: number
+        '':
+          type: string
+    WatchlistRequest:
+      title: WatchlistRequest
+      type: object
+      properties:
+        ownerId:
+          type: integer
+        watchlist:
+          type: array
+          items:
+            type: string
   securitySchemes:
     basic_authorization:
       type: http

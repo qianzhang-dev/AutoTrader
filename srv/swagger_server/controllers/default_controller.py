@@ -5,12 +5,14 @@ from swagger_server.models.alert_request import AlertRequest  # noqa: E501
 from swagger_server.models.alert_response import AlertResponse  # noqa: E501
 from swagger_server.models.monitor_request import MonitorRequest  # noqa: E501
 from swagger_server.models.monitor_response import MonitorResponse  # noqa: E501
+from swagger_server.models.stock_info_short import StockInfoShort  # noqa: E501
 from swagger_server.models.strategy_activity_request import StrategyActivityRequest  # noqa: E501
 from swagger_server.models.strategy_activity_response import StrategyActivityResponse  # noqa: E501
 from swagger_server.models.strategy_request import StrategyRequest  # noqa: E501
 from swagger_server.models.strategy_response import StrategyResponse  # noqa: E501
 from swagger_server.models.user_request import UserRequest  # noqa: E501
 from swagger_server.models.user_response import UserResponse  # noqa: E501
+from swagger_server.models.watchlist_request import WatchlistRequest  # noqa: E501
 from swagger_server import util
 
 
@@ -59,6 +61,39 @@ def delete_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
     return 'do some magic!'
 
 
+def get_get_all_tickers_and_sectors():  # noqa: E501
+    """Your GET endpoint
+
+    Retrieve all tickers and related info (include sector) into Ticker database. # noqa: E501
+
+
+    :rtype: None
+    """
+    return 'do some magic!'
+
+
+def get_investment_terms():  # noqa: E501
+    """Your GET endpoint
+
+    Get investment terms. # noqa: E501
+
+
+    :rtype: List[str]
+    """
+    return 'do some magic!'
+
+
+def get_market_codes():  # noqa: E501
+    """Your GET endpoint
+
+    Get all market codes. # noqa: E501
+
+
+    :rtype: List[str]
+    """
+    return 'do some magic!'
+
+
 def get_ping():  # noqa: E501
     """Healthcheck Endpoint
 
@@ -66,6 +101,41 @@ def get_ping():  # noqa: E501
 
 
     :rtype: None
+    """
+    return 'do some magic!'
+
+
+def get_sectors():  # noqa: E501
+    """Your GET endpoint
+
+    Get all sectors. # noqa: E501
+
+
+    :rtype: List[str]
+    """
+    return 'do some magic!'
+
+
+def get_stock_info_short_ticker(ticker):  # noqa: E501
+    """Your GET endpoint
+
+    Get short information of a stock by ticker. # noqa: E501
+
+    :param ticker: 
+    :type ticker: str
+
+    :rtype: StockInfoShort
+    """
+    return 'do some magic!'
+
+
+def get_strategies():  # noqa: E501
+    """Your GET endpoint
+
+    Get all strategies. # noqa: E501
+
+
+    :rtype: List[str]
     """
     return 'do some magic!'
 
@@ -92,6 +162,28 @@ def get_strategy_owner_id(owner_id):  # noqa: E501
     :type owner_id: int
 
     :rtype: List[StrategyResponse]
+    """
+    return 'do some magic!'
+
+
+def get_tickers():  # noqa: E501
+    """Your GET endpoint
+
+    Retrieve all tickers from database. # noqa: E501
+
+
+    :rtype: List[str]
+    """
+    return 'do some magic!'
+
+
+def get_trade_operators():  # noqa: E501
+    """Your GET endpoint
+
+    Get all trade operators. # noqa: E501
+
+
+    :rtype: List[str]
     """
     return 'do some magic!'
 
@@ -180,6 +272,19 @@ def get_users_user_id_monitors_monitor_id(user_id, monitor_id):  # noqa: E501
     :type monitor_id: int
 
     :rtype: MonitorResponse
+    """
+    return 'do some magic!'
+
+
+def get_watchlist_owner_id(owner_id):  # noqa: E501
+    """Your GET endpoint
+
+    Get watchlist of a specific user. # noqa: E501
+
+    :param owner_id: 
+    :type owner_id: str
+
+    :rtype: List[str]
     """
     return 'do some magic!'
 
@@ -352,7 +457,24 @@ def post_users_user_id_monitor(user_id, body=None):  # noqa: E501
         body = MonitorRequest.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
+
+def post_watchlist(body=None):  # noqa: E501
+    """post_watchlist
+
+    Update watchlist of a specific user. # noqa: E501
+
+    :param body: 
+    :type body: dict | bytes
+
+    :rtype: None
+    """
+    if connexion.request.is_json:
+        body = WatchlistRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
 from .alert_controller import AlertController
 from .login_controller import LoginController
 from .ping_controller import PingController
+from .strategy_controller import StrategyController
+from .ticker_controller import TickerController
 from .user_controller import UserController

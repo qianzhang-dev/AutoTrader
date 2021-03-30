@@ -647,6 +647,205 @@ paths:
                   $ref: '#/components/schemas/StrategyActivityResponse'
                 x-content-type: application/json
       x-openapi-router-controller: swagger_server.controllers.default_controller
+  /getAllTickersAndSectors:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Retrieve all tickers and related info (include sector) into Ticker
+        database.
+      operationId: get_get_all_tickers_and_sectors
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /tickers:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Retrieve all tickers from database.
+      operationId: get_tickers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /stockInfo/short/{ticker}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get short information of a stock by ticker.
+      operationId: get_stock_info_short_ticker
+      parameters:
+      - name: ticker
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockInfoShort'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /strategies:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all strategies.
+      operationId: get_strategies
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /sectors:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all sectors.
+      operationId: get_sectors
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /investmentTerms:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get investment terms.
+      operationId: get_investment_terms
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /tradeOperators:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all trade operators.
+      operationId: get_trade_operators
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /marketCodes:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get all market codes.
+      operationId: get_market_codes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "500":
+          description: Internal Server Error
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /watchlist/{ownerId}:
+    get:
+      tags: []
+      summary: Your GET endpoint
+      description: Get watchlist of a specific user.
+      operationId: get_watchlist_owner_id
+      parameters:
+      - name: ownerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /watchlist:
+    post:
+      description: Update watchlist of a specific user.
+      operationId: post_watchlist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchlistRequest'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      x-openapi-router-controller: swagger_server.controllers.default_controller
 components:
   schemas:
     UserResponse:
@@ -970,6 +1169,70 @@ components:
         comment: comment
         id: 0
         operator: operator
+    StockInfoShort:
+      title: StockInfoShort
+      type: object
+      properties:
+        id:
+          type: integer
+        marketCode:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        sector:
+          type: string
+        currency:
+          type: string
+        ticker:
+          type: string
+      example:
+        ticker: ticker
+        name: name
+        marketCode: marketCode
+        description: description
+        currency: currency
+        id: 0
+        sector: sector
+    StockInfoLong:
+      title: StockInfoLong
+      type: object
+      properties:
+        id:
+          type: integer
+        ticker:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        currency:
+          type: string
+        sector:
+          type: string
+        industry:
+          type: string
+        annualDividend:
+          type: number
+        annualDividendRate:
+          type: number
+        forwardPE:
+          type: number
+        fiveYearsAvgDividend:
+          type: number
+        ? ""
+        : type: string
+    WatchlistRequest:
+      title: WatchlistRequest
+      type: object
+      properties:
+        ownerId:
+          type: integer
+        watchlist:
+          type: array
+          items:
+            type: string
   securitySchemes:
     basic_authorization:
       type: http

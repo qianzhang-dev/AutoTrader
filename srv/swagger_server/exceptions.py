@@ -55,6 +55,14 @@ class InvalidRequestBody(ProblemException):
         )
         self.error_code = error_code
         super(ProblemException, self).__init__()
+
+class GetAllTickersInfoIssue(ProblemException):
+    def __init__(self, error_code: int = 500):
+        self.message = (
+            'Some problems occurred during the process of generating all tickers and related info.'
+        )
+        self.error_code = error_code
+        super(ProblemException, self).__init__()
     
 def render_exception_message(exception):
     return Response(

@@ -6,7 +6,7 @@ SWAGGER_SPEC_DIR = path.join(path.dirname(__file__), 'swagger')
 SWAGGER_CONFIG = path.join(path.dirname(__file__), 'swagger', 'swagger.yaml')
 SWAGGER_URL_PREFIX = '/api-docs'
 
-SQLITE_DB_CONNSTR = 'sqlite:///example.sqlite'
+SQLITE_DB_CONNSTR = 'mysql+pymysql://autoTrader:autoTraderPWD@localhost:3306/AutoTrader'
 
 # db common class
 class DbTradeOperation(enum.Enum):
@@ -44,6 +44,7 @@ class DbStockSector(enum.Enum):
     HEALTHCARE = 'Healthcare'
     CONSUMER_DEFENSIVE = 'Consumer Defensive'
     UTILITIES = 'Utilities'
+    ETF = 'etf'
 
 
 class DbTradeTerm(enum.Enum):
@@ -61,4 +62,13 @@ class DbStrategyType(enum.Enum):
     DAY_TRADE = 'Day trade'
     DIVIDEND_INVESTMENT = 'Divdend investment'
 
+
+class DbMarketCode(enum.Enum):
+    XNAS = 'NASDAQ'
+    OOTC = 'Other OTC'
+    XNYS = 'NYSE'
+    BATS = 'CBOE BZX U.S. Equities Exchange'
+    ARCX = 'NYSE'
+    XASE = 'NYSE'
+    IEXG = 'Investors Exchange'
 
