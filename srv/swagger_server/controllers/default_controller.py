@@ -479,3 +479,4 @@ from .strategy_controller import StrategyController
 from .internal_controller import InternalController
 from .user_controller import UserController
 from .utils_controller import UtilsController
+from .stock_info_controller import StockInfoController

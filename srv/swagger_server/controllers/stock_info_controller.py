@@ -1,4 +1,5 @@
 from operator import methodcaller
+from swagger_server.db_models.db_ticker import DbTicker
 from swagger_server.models.stock_info_short import StockInfoShort
 from swagger_server.constants import DbMarketCode, DbTradeOperation, DbTradeTerm
 from swagger_server.services.get_all_tickers import get_all_tickers
@@ -13,3 +14,8 @@ class StockInfoController(metaclass=ControllerMeta):
     def get_stock_info_short_ticker(cls, ticker) -> Response:
         return StockInfoShort().to_dict(), 200
     
+    @classmethod
+    def get_tickers(cls) -> Response:
+        return cls.db.session.query(DbTicker.name).all(), 200
+
+
