@@ -476,5 +476,6 @@ from .alert_controller import AlertController
 from .login_controller import LoginController
 from .ping_controller import PingController
 from .strategy_controller import StrategyController
-from .ticker_controller import TickerController
+from .internal_controller import InternalController
 from .user_controller import UserController
+from .utils_controller import UtilsController

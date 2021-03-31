@@ -139,3 +139,6 @@ def _deserialize_dict(data, boxed_type):
     """
     return {k: _deserialize(v, boxed_type)
             for k, v in six.iteritems(data)}
+
+def _get_if_not_none(value = None):
+    return value

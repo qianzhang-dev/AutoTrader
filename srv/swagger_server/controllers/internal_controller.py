@@ -3,7 +3,7 @@ from swagger_server.services.get_all_tickers import get_all_tickers
 from ..exceptions import GetAllTickersInfoIssue, InvalidRequestBody, UserNotFound, EmailAlreadyRegistered, UsernameAlreadyRegistered
 from .controller_meta import ControllerMeta
 
-class TickerController(metaclass=ControllerMeta):
+class InternalController(metaclass=ControllerMeta):
     @classmethod
     def get_get_all_tickers_and_sectors(cls):
         try:
