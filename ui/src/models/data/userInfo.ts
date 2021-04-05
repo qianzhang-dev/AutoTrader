@@ -6,7 +6,8 @@ export function initialUserInfo(): IUserInfoData {
         isLogin: false,
         id: '',
         username: '',
-        email: ''
+        email: '',
+        authToken: ''
     }
 }
 
@@ -17,9 +18,10 @@ function userInfoReducer(userInfo: IUserInfoData = initialUserInfo(), action: IU
                 isLogin: true,
                 id: action.value.id,
                 username: action.value.username,
-                email: action.value.email
+                email: action.value.email,
+                authToken: action.value.authToken
             };
-                
+
         default:
             return userInfo;
     }

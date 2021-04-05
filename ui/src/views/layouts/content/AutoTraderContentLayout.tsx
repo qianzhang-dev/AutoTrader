@@ -36,6 +36,8 @@ export function AutoTraderContentLayout() {
             <Switch>
                 <Route key={0} path='/home' children={<HomeLayout/>} />
                 <Route key={1} path='/alert' children={<AlertLayout />} />
+
+                <Route key={3} path='/journal' children={<JournalLayout />} />
             </Switch>
         </Grid>
     ) 

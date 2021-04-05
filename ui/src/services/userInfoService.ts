@@ -1,18 +1,20 @@
 import { API_BASE_URL, HEADERS } from "../utils";
 import axios from 'axios';
+import { createBasicAuthToken, postJSON } from "./utils";
 
 export class UserInfoService {
 
-    private getJSON(url: string) {
-        return axios.get(API_BASE_URL + url, HEADERS);
-    }
-
-    private postJSON(url: string, params: any) {
-        return axios.post(API_BASE_URL + url, params, HEADERS);
+    public loginUser(username: string, password: string) {
+        return axios.post(API_BASE_URL + '/login', undefined, {
+            headers: {
+                ...HEADERS,
+                'Authorization': createBasicAuthToken(username, password)
+            }
+        });
     }
 
     public createNewUser(username: string, password: string, email: string) {
-        return this.postJSON('/user', {
+        return postJSON('/user', {
             username: username,
             password: password,
             email: email

@@ -7,6 +7,7 @@ import { userInfoService } from '../../../services/userInfoService';
 import { userInfo } from 'os';
 import { apiCallStatusReducer, initApiCallStatus } from '../../../models/data/apiCallStatus';
 import { DialogFailContent, DialogLoadingContent, DialogSuccContent } from '../utils';
+import { createBasicAuthToken } from '../../../services/utils';
 
 
 export function SignupDialog(props: IDialogProps ) {
@@ -32,9 +33,22 @@ export function SignupDialog(props: IDialogProps ) {
 
         userInfoService.createNewUser(username, password, email)
         .then(s => {
-            userInfoData.dispatch({type: 'Update/UpdateByLoginSucc', value: s.data as unknown as IUserInfoData})
-            updateStatus({ type: 'SUCC' });
             console.log(s);
+
+            const authToken = createBasicAuthToken(username, password);
+            userInfoService.loginUser(username, password)
+            .then(s => {
+                userInfoData.dispatch({type: 'Update/UpdateByLoginSucc', value: {
+                    ...s.data as unknown as IUserInfoData,
+                    authToken: authToken
+                }});
+                updateStatus({ type: 'SUCC' });
+                console.log(s);
+            })
+            .catch(err => {
+                console.log(err);
+                throw err;
+            })
         })
         .catch(err => {
             updateStatus({ type: 'FAIL' });

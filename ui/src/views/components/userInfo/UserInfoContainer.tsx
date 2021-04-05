@@ -8,7 +8,7 @@ export function UserInfoContainer() {
     const [isLogin, setIsLogin] = useState(false);
 
     useEffect(() => {
-        const userInfoDataUnsubscribe = userInfoData.subscribe(() => {console.log("Match"); setIsLogin(true)});
+        const userInfoDataUnsubscribe = userInfoData.subscribe(() => setIsLogin(true));
         return function cleanUp() {
             userInfoDataUnsubscribe();
         }

@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField } from '@material-ui/core';
 import { func } from 'prop-types';
-import { IDialogProps } from '../../../models/interfaces';
+import { IDialogProps, IUserInfoData } from '../../../models/interfaces';
 import { apiCallStatusReducer, initApiCallStatus } from '../../../models/data/apiCallStatus';
 import { DialogFailContent, DialogLoadingContent, DialogSuccContent } from '../utils';
 import { TextFieldController } from '../controller/TextFieldController';
+import { userInfoService } from '../../../services/userInfoService';
+import { userInfoData } from '../../../models/data/userInfo';
+import { createBasicAuthToken } from '../../../services/utils';
 
 
 export function LoginDialog(props: IDialogProps) {
@@ -23,15 +26,31 @@ export function LoginDialog(props: IDialogProps) {
         props.setIsOpen(false);
         cleanDialog();
     }
+
+    const handleLogin = () => {
+        updateStatus({ type: 'LOADING' });
+        userInfoService.loginUser(username, password)
+        .then(s => {
+            userInfoData.dispatch({ type: 'Update/UpdateByLoginSucc', value: {
+                ...s.data as unknown as IUserInfoData,
+                authToken: createBasicAuthToken(username, password)
+            }})
+            updateStatus({ type: 'SUCC'});
+        })
+        .catch(err => {
+            console.log(err);
+            updateStatus({ type: 'FAIL' });
+        })
+    }
     
     const renderUsername = useMemo(() => {
         return (
             <TextFieldController
-                        id='signup-username'
-                        label='Username'
-                        value={username}
-                        setValue={setUsername}
-                        required={true}
+                id='signup-username'
+                label='Username'
+                value={username}
+                setValue={setUsername}
+                required={true}
             />
         )
     }, [username]);
@@ -98,7 +117,7 @@ export function LoginDialog(props: IDialogProps) {
                 
                 {
                     status === "INIT" &&
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleLogin} color="primary">
                         Login
                     </Button>
                 }

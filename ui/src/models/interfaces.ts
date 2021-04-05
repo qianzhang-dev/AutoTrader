@@ -9,7 +9,8 @@ export interface IUserInfoData {
     isLogin: boolean,
     id: string,
     username: string,
-    email: string
+    email: string,
+    authToken: string
 };
 
 export interface IUserInfoAction {
@@ -19,6 +20,11 @@ export interface IUserInfoAction {
 
 export interface IApiCallStatusAction{
     type: 'SUCC' | 'FAIL' | 'LOADING' | 'INIT'
+}
+
+export interface ITicker {
+    ticker: string,
+    name: string
 }
 
 /* hook interfaces */
@@ -35,6 +41,12 @@ export interface IDialogContent {
     msg: string
 }
 
+export interface AutoCompleteComboboxProps {
+    id: string,
+    data: string[],
+    dispatch: any
+}
+
 /* controller interfaces */
 export interface ITextFieldController {
     id: string,
@@ -45,3 +57,4 @@ export interface ITextFieldController {
     required?: boolean,
     variant?: 'filled'
 }
+
